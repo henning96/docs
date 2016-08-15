@@ -62,17 +62,23 @@ After the issuing transaction is included in the block transaction id of the iss
 ### Asset transfer
 
 
-Send(Sequence(AssetID, SenderAddress, ReceiverAddress, Amount), Sequence(Signature))
+`Send(Sequence(AssetID, SenderAddress, ReceiverAddress, Amount), Sequence(Signature))`
 
 
-AssetID: Array[Byte] - txid of the issuing transaction.
-Sender Address: Waves address - wallet addresses, asset(s) to be sent
-Receiver Address: Option[Waves address] - wallet address, asset(s) to be received. If address is empty this part of Send transaction is the fee to the block miner
-Amount. Type: Long
-Signature: Array[Byte] -  cryptographic authorisation of the transaction
+`AssetID: Array[Byte]` - txid of the issuing transaction.
+
+`Sender Address: Waves address` - wallet addresses, asset(s) to be sent from.
+
+`Receiver Address: Option[Waves address]` - wallet address, asset(s) to be received. If address is empty this part of Send transaction is the fee to the block miner
+
+`Amount: Long` - amount of asset
+
+`Signature: Array[Byte]` -  cryptographic authorisation of the transaction
 
 
-It should be noted that transaction API call does not contain root hashes or proofs, so the lite (or API) client delegates all the necessary calculations to the full node. Also it should be noted that it is possible to transfer multiple assets in the same transaction from the several accounts to several other accounts. Send transaction should contain signatures for all sender addresses, included in it. This generalized transaction can also include the network token transfer, network token has AssetID 0 in this case.
+It should be noted that transaction API call does not contain root hashes or proofs, so the lite (or API) client delegates all the necessary calculations to the full node.
+Also it should be noted that it is possible to transfer multiple assets in the same transaction from the several accounts to several other accounts.
+Send transaction should contain signatures for all sender addresses, included in it. This generalized transaction can also include the network token transfer, network token has AssetID 0 in this case.
 
 
 The total amount of different tokens transferred in one transaction should be limited to prevent spam attacks on the network.
