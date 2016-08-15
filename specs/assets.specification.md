@@ -28,22 +28,29 @@ State storage reduction is achieved through putting additional information into 
 ##  Asset creation, deletion, and transfer operation.
 
 
-### Asset creation.
+### Asset creation
 
 
-Issue (AssetName, Description, Quantity, Decimals, Reissuable, AssetID, Fee) 
+
+`Issue (AssetID, AssetName, Description, Quantity, Decimals, Reissuable, Fee)`
+
+`AssetID: Array[Byte]` - in case of reissue of a reissuable asset txid of the first issue transaction.
+
+`AssetName: String [4-16]` - asset identificator. Does not have to be unique.
+
+`Description: String [0-1000]` - asset description text.
+
+`Quantity: Long` - quantity of the assets issued. The decimal places have to be taken into account, that is Quantity is multiplied by the number of decimal places on API level in order to be able to work only with integer values.
+
+`Reissuable: Boolean` - flag which determines if additional assets can be issued later.
+
+`Decimals: Byte [0-8]` - the number of decimal places. 
+
+`Fee: Int` - fee offered  to the miners, in wavelets
 
 
-AssetName: String [4-16] - asset identificator. Does not have to be unique.
-Description: String [0-1000] -  asset description text. 
-Quantity: Long - quantity of the assets issued. The decimal places have to be taken into account, that is Quantity is multiplied by the number of decimal places on API level in order to be able to work only with integer values.
-Reissuable: Boolean - flag which determines if additional assets can be issued later.
-AssetID: Array[Byte] - in case of reissue of a reissuable asset txid of the first issue transaction.
-Decimals: Byte [0-8] - the number of decimal places. 
-Fee: Int - fee offered  to the miners, in wavelets
-
-
-Upon the asset issue a root hash of corresponding structure is written into the next block, along with the node balance written into the skip list leaf. For the reissuable asset it is needed to also store the issuer address in the skip list, so that in case of reissue the reissue transaction can be validated (Only the asset issuer is able to reissue the asset)
+Upon the asset issue a root hash of corresponding structure is written into the next block, along with the node balance written into the skip list leaf. 
+For the reissuable asset it is needed to also store the issuer address in the skip list, so that in case of reissue the reissue transaction can be validated (Only the asset issuer is able to reissue the asset)
 
 
 In case of reissue transaction it is allowed to change the “reissuable” flag.
